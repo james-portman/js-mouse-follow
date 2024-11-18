@@ -1,0 +1,54 @@
+<html>
+<head>
+<style>
+#mouseFollow {
+width: 30px;
+height: 30px;
+/*background: black;*/
+position: absolute;
+pointer-events: none;
+border-radius: 50%;
+border: 2px solid red;
+}	
+</style>
+</head>
+<body>
+<div id="mouseFollow"></div>
+
+<script type="text/javascript">
+var mouseFollowDiv = document.getElementById("mouseFollow");
+var divWidth = mouseFollowDiv.offsetWidth;
+var divHeight = mouseFollowDiv.offsetHeight;
+
+let currentMousePosition = { x: 0, y: 0 };
+window.addEventListener('mousemove', (event) => {
+    currentMousePosition.x = event.clientX;
+    currentMousePosition.y = event.clientY;
+});
+
+function setMouseFollow(x, y) {
+    mouseFollowDiv.style.left = x+"px";
+    mouseFollowDiv.style.top = y+"px";
+}
+
+function updateMouseFollow() {
+	var divCurrent = mouseFollowDiv.getBoundingClientRect();
+
+	var mouseXCenter = currentMousePosition.x - (divWidth / 2);
+	var mouseYCenter = currentMousePosition.y - (divHeight / 2);
+
+	var diffX = mouseXCenter - divCurrent.x;
+	var diffY = mouseYCenter - divCurrent.y;
+
+	var targetX = mouseXCenter - (diffX / 100 * 80);
+	var targetY = mouseYCenter - (diffY / 100 * 80);
+
+	setMouseFollow(targetX, targetY);
+
+	setTimeout(updateMouseFollow, 50);
+}
+updateMouseFollow();
+
+</script>
+</body>
+</html>
